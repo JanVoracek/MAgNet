@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.20827.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAgNet.Core", "MAgNet.Core\MAgNet.Core.csproj", "{7E7C8127-5B09-4E26-BACB-42F5D581A95D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAgNet.Agents", "MAgNet.Agents\MAgNet.Agents.csproj", "{F8CC2CE3-1E10-4B70-BCEB-B4D3756BE544}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAgNet.Demo.Server", "MAgNet.Demo.Server\MAgNet.Demo.Server.csproj", "{0981B587-C2BD-427A-87D2-5AA6F721B73A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E7C8127-5B09-4E26-BACB-42F5D581A95D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E7C8127-5B09-4E26-BACB-42F5D581A95D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E7C8127-5B09-4E26-BACB-42F5D581A95D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E7C8127-5B09-4E26-BACB-42F5D581A95D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8CC2CE3-1E10-4B70-BCEB-B4D3756BE544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8CC2CE3-1E10-4B70-BCEB-B4D3756BE544}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8CC2CE3-1E10-4B70-BCEB-B4D3756BE544}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8CC2CE3-1E10-4B70-BCEB-B4D3756BE544}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0981B587-C2BD-427A-87D2-5AA6F721B73A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0981B587-C2BD-427A-87D2-5AA6F721B73A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0981B587-C2BD-427A-87D2-5AA6F721B73A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0981B587-C2BD-427A-87D2-5AA6F721B73A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
