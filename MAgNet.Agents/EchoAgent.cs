@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using System.Net.Sockets;
 using System.Threading;
 using MAgNet.Core;
 
@@ -65,6 +67,48 @@ namespace MAgNet.Agents
         public override string ToString()
         {
             return "LoopAgent: " + Sum;
+        }
+    }
+
+    [Serializable]
+    public class BoomerangAgent : Agent
+    {
+        private readonly string _originIp;
+        private readonly int _originPort;
+        private readonly string _targetIp;
+        private readonly int _targetPort;
+        private int _numberOfResuming;
+
+        public BoomerangAgent(string originIp, int originPort, string targetIp, int targetPort)
+        {
+            _originIp = originIp;
+            _originPort = originPort;
+            _targetIp = targetIp;
+            _targetPort = targetPort;
+        }
+
+        protected override void ResumeCalculation()
+        {
+            _numberOfResuming += 1;
+
+            if (_numberOfResuming%2 == 1)
+            {
+                Console.WriteLine("Tak jdem na to...");
+                Thread.Sleep(1000);
+                CurrentAgentManager.PlanTravel(this, _targetIp, _targetPort);
+            }
+            else
+            {
+                Console.WriteLine("A letim zpatky...");
+                Thread.Sleep(1000);
+                CurrentAgentManager.PlanTravel(this, _originIp, _originPort);
+            }
+        }
+
+        protected override void HandleTravelRequest()
+        {
+            Console.WriteLine("Letiiiiim...");
+            Travel();
         }
     }
 }

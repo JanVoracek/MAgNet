@@ -12,7 +12,7 @@ namespace MAgNet.Core
         [NonSerialized]
         private volatile RedirectEvent _redirectEvent;
         [NonSerialized]
-        private volatile AgentManager _currentAgentManager;
+        protected volatile AgentManager CurrentAgentManager;
         [NonSerialized]
         internal bool Sent;
 
@@ -22,7 +22,7 @@ namespace MAgNet.Core
         internal void Resume(AgentManager agentManager)
         {
             Console.WriteLine("Resuming agent " + this);
-            _currentAgentManager = agentManager;
+            CurrentAgentManager = agentManager;
             ResumeCalculation();
         }
 
@@ -40,7 +40,7 @@ namespace MAgNet.Core
         protected void Travel()
         {
             if (!ShouldTravel()) return;
-            var agentManager = _currentAgentManager;
+            var agentManager = CurrentAgentManager;
             var redirectEvent = _redirectEvent;
             Sent = true;
             agentManager.SendAgent(this, redirectEvent.Target, redirectEvent.Port);

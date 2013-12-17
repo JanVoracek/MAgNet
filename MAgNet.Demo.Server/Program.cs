@@ -6,28 +6,46 @@ using MAgNet.Core;
 
 namespace MAgNet.Demo.Server
 {
+
+    class Foo
+    {
+        public void Run()
+        {
+            Console.WriteLine("foo");
+        }
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
-            if (args.Length == 0) args = new[] {"3000", "localhost", "3000"};
-            var agentServer = new AgentServer(int.Parse(args[0]));
+            var foo = new Foo();
+            foo.Run();
+            RunInSandbox(foo.Run);
+
+            return;
+            if (args.Length == 0) args = new[] {"localhost", "3000", "localhost", "3000"};
+
+            var localIp = args[0];
+            var localPort = int.Parse(args[1]);
+
+            var agentServer = new AgentServer(localPort);
             var agentManager = new AgentManager(agentServer);
 
-            var agent = new LoopAgent(1000);
-            var target = args[1];
-            var port = int.Parse(args[2]);
 
-            Console.WriteLine("before register " + agent);
-            agentManager.Register(agent);
-            Console.WriteLine("after register " + agent);
-            Thread.Sleep(TimeSpan.FromMilliseconds(100));
-            agentManager.PlanTravel(agent, target, port);
-            Thread.Sleep(TimeSpan.FromMilliseconds(1000));
-            agentManager.Register(agent);
-            Thread.Sleep(TimeSpan.FromMilliseconds(5000));
-            Console.WriteLine(agent.ToString());
-            Console.WriteLine(agentManager.Agents.FirstOrDefault());
+            if (args.Length == 4)
+            {
+                var targetIp = args[2];
+                var targetPort = int.Parse(args[3]);
+                var agent = new BoomerangAgent(localIp, localPort, targetIp, targetPort);
+                agentManager.Register(agent);
+            }
+
+        }
+
+        private static void RunInSandbox(Action action)
+        {
+            action();
         }
     }
 }

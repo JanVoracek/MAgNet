@@ -47,20 +47,19 @@ namespace MAgNet.Core
             var stream = client.GetStream();
             var formatter = new BinaryFormatter();
             var agent = (Agent)formatter.Deserialize(stream);
-            Console.WriteLine("Received agent " + agent);
+            Console.WriteLine("Log: Received agent " + agent);
             _listener(agent);
         }
 
         public void Send(string address, int port, Agent agent)
         {
-            Console.WriteLine("sending agent " + agent);
             var stream = new MemoryStream();
             var formatter = new BinaryFormatter();
             formatter.Serialize(stream, agent);
 
             var client = new TcpClient(address, port);
             var ns = client.GetStream();
-            Console.WriteLine("Sending agent: " + agent);
+            Console.WriteLine("Log: Sending agent: " + agent);
             var bytes = stream.ToArray();
             ns.Write(bytes, 0, bytes.Length);
         }
