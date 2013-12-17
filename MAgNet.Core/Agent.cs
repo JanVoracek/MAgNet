@@ -10,42 +10,40 @@ namespace MAgNet.Core
     public abstract class Agent
     {
         [NonSerialized]
-        private RedirectEvent _redirectEvent;
+        private volatile RedirectEvent _redirectEvent;
         [NonSerialized]
-        private AgentManager _currentAgentManager;
+        private volatile AgentManager _currentAgentManager;
+        [NonSerialized]
+        internal bool Sent;
 
-
-        protected abstract void PrepareToSending();
         protected abstract void ResumeCalculation();
         protected virtual void HandleTravelRequest() {}
 
-        public void Resume(AgentManager agentManager)
+        internal void Resume(AgentManager agentManager)
         {
+            Console.WriteLine("Resuming agent " + this);
             _currentAgentManager = agentManager;
             ResumeCalculation();
         }
 
-        public void TravelTo(string target, int port)
+        internal void TravelTo(string target, int port)
         {
             _redirectEvent = new RedirectEvent { Target = target, Port = port };
             HandleTravelRequest();
         }
 
-        protected void TryToTravel()
+        protected bool ShouldTravel()
         {
-            if (_redirectEvent == null) return;
-            // zastavit vlakno agenta
-            PrepareToSending();
-            var agentManager = _currentAgentManager;
-            var redirectEvent = _redirectEvent;
-            Clear();
-            agentManager.SendAgent(this, redirectEvent.Target, redirectEvent.Port);
+            return _redirectEvent != null;
         }
 
-        private void Clear()
+        protected void Travel()
         {
-            _redirectEvent = null;
-            _currentAgentManager = null;
+            if (!ShouldTravel()) return;
+            var agentManager = _currentAgentManager;
+            var redirectEvent = _redirectEvent;
+            Sent = true;
+            agentManager.SendAgent(this, redirectEvent.Target, redirectEvent.Port);
         }
 
         private class RedirectEvent

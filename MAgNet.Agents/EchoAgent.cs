@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 using MAgNet.Core;
 
 namespace MAgNet.Agents
@@ -14,11 +15,6 @@ namespace MAgNet.Agents
             _name = name;
         }
 
-        protected override void PrepareToSending()
-        {
-            
-        }
-
         protected override void ResumeCalculation()
         {
             Console.WriteLine("Hi there! I am " + _name + "!");
@@ -27,7 +23,7 @@ namespace MAgNet.Agents
         protected override void HandleTravelRequest()
         {
             Console.WriteLine("A jedeeeem...");
-            TryToTravel();
+            Travel();
         }
     }
 
@@ -35,33 +31,40 @@ namespace MAgNet.Agents
     public class LoopAgent : Agent
     {
         private readonly int _loops;
-        private bool done;
-        private int i;
-        private int sum;
+        private bool _done;
+        private int _i;
+        public int Sum { get; private set; }
 
         public LoopAgent(int loops)
         {
             _loops = loops;
         }
 
-        protected override void PrepareToSending()
-        {
-
-        }
-
         protected override void ResumeCalculation()
         {
-            for (; i < _loops; i++)
+            for (; _i < _loops; _i++)
             {
-                sum += i;
+                Sum += _i;
+                Thread.Sleep(TimeSpan.FromMilliseconds(1));
+                if (ShouldTravel())
+                {
+                    Console.WriteLine("Ending loop " + this);
+                    break;
+                }
             }
-            done = true;
+            if(ShouldTravel()) Travel();
+            _done = true;
         }
 
         protected override void HandleTravelRequest()
         {
-            if(done)
-                TryToTravel();
+            if(_done)
+                Travel();
+        }
+
+        public override string ToString()
+        {
+            return "LoopAgent: " + Sum;
         }
     }
 }

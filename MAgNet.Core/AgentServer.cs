@@ -47,11 +47,13 @@ namespace MAgNet.Core
             var stream = client.GetStream();
             var formatter = new BinaryFormatter();
             var agent = (Agent)formatter.Deserialize(stream);
+            Console.WriteLine("Received agent " + agent);
             _listener(agent);
         }
 
         public void Send(string address, int port, Agent agent)
         {
+            Console.WriteLine("sending agent " + agent);
             var stream = new MemoryStream();
             var formatter = new BinaryFormatter();
             formatter.Serialize(stream, agent);

@@ -26,12 +26,19 @@ namespace MAgNet.Core
 
         public void Register(Agent agent)
         {
+            if (agent.Sent) throw new Exception("Zombie");
             _agents.Add(agent);
             new Thread(() => agent.Resume(this)).Start();
         }
 
-        public void SendAgent(Agent agent, string target, int port)
+        public void PlanTravel(Agent agent, string target, int port)
         {
+            agent.TravelTo(target, port);
+        }
+
+        internal void SendAgent(Agent agent, string target, int port)
+        {
+            _agents.Remove(agent);
             _agentServer.Send(target, port, agent);
         }
     }
